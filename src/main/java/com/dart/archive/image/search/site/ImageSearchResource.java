@@ -32,7 +32,11 @@ public class ImageSearchResource {
 	@Timed
 	public ImageSearchResults search(@QueryParam("image") String image) {
 		System.out.println("search "+image);
-		return searchService.search(new File(image));
+		try {
+			return searchService.search(new File(image));
+		} finally {
+			
+		}
 	}
 
 }

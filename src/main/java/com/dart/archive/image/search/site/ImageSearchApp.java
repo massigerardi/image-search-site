@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.github.nhuray.dropwizard.spring.SpringBundle;
 import com.yammer.dropwizard.Service;
@@ -37,7 +38,8 @@ public class ImageSearchApp extends Service<ImageSearchConfiguration> {
     private ConfigurableApplicationContext applicationContext() throws BeansException {
     	AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
     	context.scan("com.dart.archive.image.search.site");
-    	ApplicationContext classpathContext = new ClassPathXmlApplicationContext("classpath*:/applicationContext.xml");
+//    	ApplicationContext classpathContext = new ClassPathXmlApplicationContext("classpath*:/applicationContext.xml");
+    	ApplicationContext classpathContext = new FileSystemXmlApplicationContext("applicationContext.xml");
     	context.setParent(classpathContext);
     	return context;
       }

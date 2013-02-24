@@ -10,6 +10,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -37,27 +38,19 @@ public class ImageSearchServiceTest {
 	@Mock
 	private Candidate candidate;
 	
-	Collection<Candidate> candidates;
+	Collection<Candidate> candidates = new ArrayList<Candidate>();
 	
-	/**
-	 * Test method for {@link com.dart.archive.image.search.site.ImageSearchService#getSearcher()}.
-	 */
-	@Test
-	public void testGetSearcher() {
-		ImageSearcher searcher = imageSearchService.getSearcher();
-		assertNotNull(searcher);
-	}
-
 	/**
 	 * test method for {@link ImageSearchService#search(java.io.File)}
 	 */
+	@Test
 	public void testSearch() {
 		imageSearchService.host = "http://host/images/service";
-		imageSearchService.images = "src/test/resources/images/service";
+		imageSearchService.images = "/src/test/resources/images/service";
 		candidates.add(candidate);
 		given(imageSearcher.search(any(File.class))).willReturn(candidates);
-		given(candidate.getImage()).willReturn(new File("src/test/resources/images/service/image.jpg"));
-		ImageSearchResults results = imageSearchService.search(new File("src/test/resources/image.jpg"));
+		given(candidate.getImage()).willReturn(new File("/src/test/resources/images/service/image.jpg"));
+		ImageSearchResults results = imageSearchService.search(new File("/src/test/resources/image.jpg"));
 		assertNotNull(results);
 		assertThat(results.getContent().size(), is(1));
 		String url = results.getContent().get(0);
