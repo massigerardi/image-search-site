@@ -7,7 +7,7 @@
     
     <bean id="imageSearcher" class="com.dart.archive.image.search.surf.InterestPointsSearcher"
         lazy-init="true">
-       <constructor-arg value="e:/dart/images/Trudgeon/50to98"></constructor-arg>
+       <constructor-arg value="/Volumes/STORE N GO/dart/images/Trudgeon/50to98"></constructor-arg>
        <property name="threshold" value="0.35"/>
     </bean>
     

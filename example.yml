@@ -1,4 +1,4 @@
-images: e:/dart/images/Trudgeon/50to98
+images: /Volumes/STORE N GO/dart/images/Trudgeon/50to98
 host: http://localhost/images/Trudgeon
 
 
@@ -133,9 +133,7 @@ logging:
   loggers:
 
     # Sets the level for 'com.example.app' to DEBUG.
-    com.example.app: DEBUG
-
-    org.hibernate.SQL: ALL
+    com.dart.archive: DEBUG
 
   # Settings for logging to stdout.
   console:

@@ -36,7 +36,7 @@ public class ImageSearchHealthCheck extends HealthCheck {
 		if (file.listFiles().length == 0) {
 			return Result.unhealthy("file "+images+" is an empty directory");
 		}
-        return Result.healthy();
+        return Result.healthy(images);
 	}
 
 	
