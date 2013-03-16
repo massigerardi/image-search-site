@@ -21,8 +21,10 @@ host: http://dart-archive.com/contents/images
 run
 {{java -jar target/image-search-site-0.0.1-SNAPSHOT.jar server example.yml}}
 
-go to 
+Image Search
 {{http://localhost:8080/search/?image=image.absolute.path}}
 
+Health Check
+{{http://localhost:8081}}
 
 
