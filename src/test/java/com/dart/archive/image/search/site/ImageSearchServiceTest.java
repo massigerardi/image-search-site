@@ -88,7 +88,8 @@ public class ImageSearchServiceTest {
 		assertNotNull(results);
 		assertThat(results.getContent().size(), is(3));
 		String url = results.getContent().get(0);
-		assertThat(url, is("/src/test/resources/images/service/image1.jpg"));
+		String expectedPath = new File("/src/test/resources/images/service/image1.jpg").getAbsolutePath();
+		assertThat(url, is(expectedPath));
 	}
 
 }

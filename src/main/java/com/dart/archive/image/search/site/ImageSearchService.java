@@ -63,17 +63,12 @@ public class ImageSearchService {
 	}
 	
 	private ImageSearchResults search(ImageSearcher searcher, File file) {
-		long start = System.currentTimeMillis();
 		Collection<Candidate> candidates = searcher.search(file);
-		long middle = System.currentTimeMillis();
-		System.out.println("search in "+(middle - start));
 		List<String> results = new ArrayList<String>();
 		for (Iterator<Candidate> iterator = candidates.iterator(); iterator.hasNext();) {
 			Candidate candidate = iterator.next();
 			results.add(candidate.getImage().getAbsolutePath().replace('\\', '/'));
 		}
-		long end = System.currentTimeMillis();
-		System.out.println("search in "+(end - middle) +" total "+(end - start));
 		return new ImageSearchResults(counter.incrementAndGet(), results);
 	}	
 	
