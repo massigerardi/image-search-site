@@ -51,6 +51,7 @@ public class ImageSearchServiceTest {
 	
 	Collection<Candidate> ipcandidates = new ArrayList<Candidate>();
 	Collection<Candidate> naivecandidates = new ArrayList<Candidate>();
+	String expectedPath = new File("/src/test/resources/images/service/image1.jpg").getAbsolutePath().replace('\\', '/');
 	
 	@Before
 	public void setUp() {
@@ -72,7 +73,7 @@ public class ImageSearchServiceTest {
 		assertNotNull(results);
 		assertThat(results.getContent().size(), is(1));
 		String url = results.getContent().get(0);
-		assertThat(url, is("/src/test/resources/images/service/image1.jpg"));
+		assertThat(url, is(expectedPath));
 	}
 
 	/**
@@ -88,7 +89,6 @@ public class ImageSearchServiceTest {
 		assertNotNull(results);
 		assertThat(results.getContent().size(), is(3));
 		String url = results.getContent().get(0);
-		String expectedPath = new File("/src/test/resources/images/service/image1.jpg").getAbsolutePath();
 		assertThat(url, is(expectedPath));
 	}
 
