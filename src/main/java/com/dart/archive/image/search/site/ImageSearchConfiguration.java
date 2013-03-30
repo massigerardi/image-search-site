@@ -18,19 +18,32 @@ public class ImageSearchConfiguration extends Configuration {
     @JsonProperty
     private String images;
 
-	public String getImages() {
-		return images;
-	}
-	
 	@NotEmpty
     @JsonProperty
-    private String host;
+    private String cacheFolder;
 
-	/**
-	 * @return the host
-	 */
-	public String getHost() {
-		return host;
+	@NotEmpty
+    @JsonProperty
+    private String cacheNames;
+
+	@NotEmpty
+    @JsonProperty
+    private String searchFolder;
+
+	@NotEmpty
+    @JsonProperty
+    private String site;
+
+	public String getSearchFolder() {
+		return searchFolder;
+	}
+
+	public String getSite() {
+		return site;
+	}
+	
+	public String getImages() {
+		return images;
 	}
 	
 }

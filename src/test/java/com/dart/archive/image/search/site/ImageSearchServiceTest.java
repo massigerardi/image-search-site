@@ -41,6 +41,13 @@ public class ImageSearchServiceTest {
 	private InterestPointsSearcher interestPointsSearcher;
 
 	@Mock
+	private ImageSearcherFactory searcherFactory;
+	
+	String images = "/src/test/resources/images/service";
+	
+	String searchFolder = "/src/test/resources/images/service/site01";
+	
+	@Mock
 	private Candidate candidate1;
 	
 	@Mock
@@ -55,12 +62,15 @@ public class ImageSearchServiceTest {
 	
 	@Before
 	public void setUp() {
-		imageSearchService.images = "/src/test/resources/images/service";
+		imageSearchService.images=images;
+		imageSearchService.searchFolder = searchFolder;
+		given(searcherFactory.getInterestPointsSearcher()).willReturn(interestPointsSearcher);
+		given(searcherFactory.getNaiveColorImageSearcher()).willReturn(colorImageSearcher);
 		given(interestPointsSearcher.search(any(File.class))).willReturn(ipcandidates);
 		given(colorImageSearcher.search(any(File.class))).willReturn(naivecandidates);
-		given(candidate1.getImage()).willReturn(new File("/src/test/resources/images/service/image1.jpg"));
-		given(candidate2.getImage()).willReturn(new File("/src/test/resources/images/service/image2.jpg"));
-		given(candidate3.getImage()).willReturn(new File("/src/test/resources/images/service/image3.jpg"));
+		given(candidate1.getImage()).willReturn(new File("/src/test/resources/images/service/site01/image1.jpg"));
+		given(candidate2.getImage()).willReturn(new File("/src/test/resources/images/service/site01/image2.jpg"));
+		given(candidate3.getImage()).willReturn(new File("/src/test/resources/images/service/site01/image3.jpg"));
 	}
 	
 	/**

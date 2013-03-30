@@ -1,6 +1,11 @@
 images: /Users/massimiliano.gerardi/dart/images/Trudgeon/1to49
-host: http://localhost/images/Trudgeon
+searchFolder: /Users/massimiliano.gerardi/dart/images/Trudgeon/1to49
+site: site02
 
+# cache configuration
+cacheFolder: /Users/massimiliano.gerardi/dart/ehcache/site02
+# cache names separated by pipe |
+cacheNames: interestPoints|colorImage
 
 # HTTP-specific options.
 http:

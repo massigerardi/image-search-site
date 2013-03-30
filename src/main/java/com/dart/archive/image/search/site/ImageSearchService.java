@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ import org.springframework.stereotype.Component;
 
 import com.dart.archive.image.search.Candidate;
 import com.dart.archive.image.search.ImageSearcher;
-import com.dart.archive.image.search.color.NaiveColorImageSearcher;
-import com.dart.archive.image.search.surf.InterestPointsSearcher;
 
 /**
  * @author Massimiliano.Gerardi
@@ -38,22 +37,22 @@ public class ImageSearchService {
 	private Logger logger = LoggerFactory.getLogger(ImageSearchService.class);
 	
 	private final AtomicLong counter = new AtomicLong();
-
-	@Value(("${images}"))
+	
+	@Value(("${images}")) 
 	protected String images;
 
+	@Value(("${searchFolder}")) 
+	protected String searchFolder;
+
 	@Autowired
-	protected InterestPointsSearcher interestPointsSearcher;
-	
-	@Autowired
-	protected NaiveColorImageSearcher naiveColorImageSearcher;
-	
+	ImageSearcherFactory searcherFactory;
+
 	public ImageSearchResults search(File file) {
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		try {
-			ImageSearchResults candidates = search(interestPointsSearcher, file);
+			ImageSearchResults candidates = search(searcherFactory.getInterestPointsSearcher(), file);
 			if (candidates.getContent().isEmpty()) {
-				candidates = search(naiveColorImageSearcher, file);
+				candidates = search(searcherFactory.getNaiveColorImageSearcher(), file);
 			}
 			return candidates;
 		} catch (Exception e) {
@@ -69,16 +68,21 @@ public class ImageSearchService {
 		List<String> results = new ArrayList<String>();
 		for (Iterator<Candidate> iterator = candidates.iterator(); iterator.hasNext();) {
 			Candidate candidate = iterator.next();
-			results.add(candidate.getImage().getAbsolutePath().replace('\\', '/'));
+			results.add(getPath(candidate));
 		}
 		return new ImageSearchResults(counter.incrementAndGet(), results);
 	}	
 	
+	private String getPath(Candidate candidate) {
+		String path = candidate.getImage().getAbsolutePath().replace('\\', '/');
+		return StringUtils.replace(path, searchFolder, images);
+	}
+
 	Executor executor = Executors.newFixedThreadPool(5);
 	
 	public void reload() {
-		executor.execute(new ReloadJob(interestPointsSearcher));
-		executor.execute(new ReloadJob(naiveColorImageSearcher));
+		executor.execute(new ReloadJob(searcherFactory.getInterestPointsSearcher()));
+		executor.execute(new ReloadJob(searcherFactory.getNaiveColorImageSearcher()));
 	}
 	
 	class ReloadJob implements Runnable {
