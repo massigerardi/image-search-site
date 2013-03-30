@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 import lombok.Getter;
@@ -72,4 +74,22 @@ public class ImageSearchService {
 		return new ImageSearchResults(counter.incrementAndGet(), results);
 	}	
 	
+	Executor executor = Executors.newFixedThreadPool(5);
+	
+	public void reload() {
+		executor.execute(new ReloadJob(interestPointsSearcher));
+		executor.execute(new ReloadJob(naiveColorImageSearcher));
+	}
+	
+	class ReloadJob implements Runnable {
+		
+		ImageSearcher searcher;
+		public ReloadJob(ImageSearcher searcher) {
+			this.searcher = searcher;
+		}
+		public void run() {
+			searcher.reload();
+		}
+		
+	}
 }
