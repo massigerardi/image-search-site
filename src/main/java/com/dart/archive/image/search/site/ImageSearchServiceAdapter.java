@@ -6,7 +6,6 @@ package com.dart.archive.image.search.site;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -23,7 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.dart.archive.image.search.Candidate;
-import com.dart.archive.image.search.ImageSearcher;
+import com.dart.archive.image.search.service.ImageSearchService;
 
 /**
  * @author Massimiliano.Gerardi
@@ -32,9 +31,9 @@ import com.dart.archive.image.search.ImageSearcher;
 @Component
 @Setter
 @Getter
-public class ImageSearchService {
+public class ImageSearchServiceAdapter {
 
-	private Logger logger = LoggerFactory.getLogger(ImageSearchService.class);
+	private Logger logger = LoggerFactory.getLogger(ImageSearchServiceAdapter.class);
 	
 	private final AtomicLong counter = new AtomicLong();
 	
@@ -45,34 +44,36 @@ public class ImageSearchService {
 	protected String searchFolder;
 
 	@Autowired
-	ImageSearcherFactory searcherFactory;
+	ImageSearcherServiceFactory searcherFactory;
 
 	public ImageSearchResults search(File file) {
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		try {
-			ImageSearchResults candidates = search(searcherFactory.getInterestPointsSearcher(), file);
-			if (candidates.getContent().isEmpty()) {
-				candidates = search(searcherFactory.getNaiveColorImageSearcher(), file);
-			}
-			return candidates;
+			return search(searcherFactory.getSearchService(), file);
 		} catch (Exception e) {
 			logger.error("while searching", e);
-			return new ImageSearchResults(counter.incrementAndGet(), new ArrayList<String>());
+			return new ImageSearchResults(counter.incrementAndGet(), new ArrayList<ImageSearchCandidate>());
 		} finally {
 			Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 		}
 	}
 	
-	private ImageSearchResults search(ImageSearcher searcher, File file) {
+	private ImageSearchResults search(ImageSearchService searcher, File file) {
 		Collection<Candidate> candidates = searcher.search(file);
-		List<String> results = new ArrayList<String>();
-		for (Iterator<Candidate> iterator = candidates.iterator(); iterator.hasNext();) {
-			Candidate candidate = iterator.next();
-			results.add(getPath(candidate));
+		List<ImageSearchCandidate> results = new ArrayList<ImageSearchCandidate>();
+		for (Candidate candidate : candidates) {
+			ImageSearchCandidate searchCandidate = getCandidate(candidate);
+			results.add(searchCandidate);
 		}
 		return new ImageSearchResults(counter.incrementAndGet(), results);
 	}	
 	
+	private ImageSearchCandidate getCandidate(Candidate other) {
+		String path = getPath(other);
+		Double score = other.getScore();
+		return new ImageSearchCandidate(score, path);
+	}
+
 	private String getPath(Candidate candidate) {
 		String path = candidate.getImage().getAbsolutePath().replace('\\', '/');
 		return StringUtils.replace(path, searchFolder, images);
@@ -81,19 +82,7 @@ public class ImageSearchService {
 	Executor executor = Executors.newFixedThreadPool(5);
 	
 	public void reload() {
-		executor.execute(new ReloadJob(searcherFactory.getInterestPointsSearcher()));
-		executor.execute(new ReloadJob(searcherFactory.getNaiveColorImageSearcher()));
+		searcherFactory.getSearchService().reload();
 	}
 	
-	class ReloadJob implements Runnable {
-		
-		ImageSearcher searcher;
-		public ReloadJob(ImageSearcher searcher) {
-			this.searcher = searcher;
-		}
-		public void run() {
-			searcher.reload();
-		}
-		
-	}
 }

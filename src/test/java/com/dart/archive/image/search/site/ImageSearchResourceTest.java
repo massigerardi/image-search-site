@@ -3,11 +3,14 @@
  */
 package com.dart.archive.image.search.site;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 
 import java.io.File;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +26,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ImageSearchResourceTest {
 	
 	@Mock
-	private ImageSearchService searchService;
+	private ImageSearchServiceAdapter searchService;
 	
 	@InjectMocks
 	private ImageSearchResource imageSearchResource;
@@ -38,8 +41,11 @@ public class ImageSearchResourceTest {
 	@Test
 	public void testSearch() {
 		given(searchService.search(any(File.class))).willReturn(results);
-		ImageSearchResults results = imageSearchResource.search("image.jpg");
-		assertNotNull(results);
+		Response response = imageSearchResource.search("image.jpg");
+		assertNotNull(response);
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		assertEquals(results, response.getEntity());
+		
 	}
 
 }

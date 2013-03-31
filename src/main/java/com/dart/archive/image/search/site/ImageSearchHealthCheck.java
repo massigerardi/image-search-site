@@ -28,7 +28,7 @@ public class ImageSearchHealthCheck extends HealthCheck {
 	protected String site;
 	
 	@Autowired
-	ImageSearcherFactory searcherFactory;
+	ImageSearcherServiceFactory searcherServiceFactory;
 	
 	public ImageSearchHealthCheck() {
         super("images");
@@ -42,10 +42,9 @@ public class ImageSearchHealthCheck extends HealthCheck {
 				checkDirectory(images, result)
 				&& checkDirectory(searchFolder, result);
 		if (isHealthy) {
-			result.append("Images:      "+images+"\n");
-			result.append("Site Folder: "+searchFolder+"\n");
-			result.append("Searcher 1:  "+searcherFactory.getInterestPointsSearcher()+"\n");
-			result.append("Searcher 2:  "+searcherFactory.getNaiveColorImageSearcher()+"\n");
+			result.append("Images:          "+images+"\n");
+			result.append("Site Folder:     "+searchFolder+"\n");
+			result.append("Search Service:  "+searcherServiceFactory.getSearchService()+"\n");
 			return Result.healthy(result.toString());
 		}
 		return Result.unhealthy(result.toString());

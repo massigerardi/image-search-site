@@ -29,16 +29,17 @@ import com.yammer.metrics.annotation.Timed;
 public class ImageSearchResource {
 
 	@Autowired
-	ImageSearchService searchService;
+	ImageSearchServiceAdapter searchService;
 
 	@GET
 	@Timed
-	public ImageSearchResults search(@QueryParam("image") String image) {
+	public Response search(@QueryParam("image") String image) {
 		System.out.println("search "+image);
 		try {
-			return searchService.search(new File(image));
+			ImageSearchResults results = searchService.search(new File(image));
+			return Response.status(Status.OK).entity(results).build();
 		} finally {
-			
+			System.out.println("search done");
 		}
 	}
 
