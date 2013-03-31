@@ -98,7 +98,7 @@ http:
     # Settings for logging to stdout.
     console:
       # If true, write log statements to stdout.
-      enabled: true
+      enabled: false
 
     # Settings for logging to a file.
     file:
@@ -140,12 +140,13 @@ logging:
 
     # Sets the level for 'com.example.app' to DEBUG.
     com.dart.archive: DEBUG
-
+    net.sf.ehcache: INFO
+    
   # Settings for logging to stdout.
   console:
 
     # If true, write log statements to stdout.
-    enabled: true
+    enabled: false
 
     # Do not display log statements below this threshold to stdout.
     threshold: ALL
@@ -160,11 +161,11 @@ logging:
     threshold: ALL
 
     # The file to which statements will be logged.
-    currentLogFilename: ./logs/example.log
+    currentLogFilename: ./logs/search-site-01.log
 
     #  When the log file rolls over, the file will be archived to example-2012-03-15.log.gz,
     # example.log will be truncated, and new statements written to it.
-    archivedLogFilenamePattern: ./logs/example-%d.log.gz
+    archivedLogFilenamePattern: ./logs/search-site-01-%d.log.gz
 
     # The maximum number of log files to archive.
     archivedFileCount: 5

@@ -34,25 +34,15 @@ public class ImageSearchResource {
 	@GET
 	@Timed
 	public Response search(@QueryParam("image") String image) {
-		System.out.println("search "+image);
-		try {
-			ImageSearchResults results = searchService.search(new File(image));
-			return Response.status(Status.OK).entity(results).build();
-		} finally {
-			System.out.println("search done");
-		}
+		ImageSearchResults results = searchService.search(new File(image));
+		return Response.status(Status.OK).entity(results).build();
 	}
 
 	@PUT
 	@Path("/reload")
 	@Timed
 	public Response reload() {
-		try {
-			System.out.println("reload ");
-			searchService.reload();
-			return Response.status(Status.OK).entity("reload done").build();
-		} finally {
-			System.out.println("reload done");
-		}
+		searchService.reload();
+		return Response.status(Status.OK).entity("reload done").build();
 	}
 }
