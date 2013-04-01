@@ -1,9 +1,9 @@
-images: /Users/massimiliano.gerardi/dart/images/Trudgeon/50to98
-searchFolder: /Users/massimiliano.gerardi/dart/images/Trudgeon/50to98
-site: site01
+images: /contents/images/
+searchFolder: FOLDER
+site: SITE
 
 # cache configuration
-cacheFolder: /Users/massimiliano.gerardi/dart/ehcache/site01
+cacheFolder: /home/dart/ehcache/SITE
 # cache names separated by pipe |
 cacheNames: interestPoints|colorImage
 
@@ -106,11 +106,11 @@ http:
       enabled: true
 
       # The file to which statements will be logged.
-      currentLogFilename: ./logs/requests.log
+      currentLogFilename: ./logs/SITE-requests.log
 
       #  When the log file rolls over, the file will be archived to example-2012-03-15.log.gz,
       # example.log will be truncated, and new statements written to it.
-      archivedLogFilenamePattern: ./logs/requests-%d.log.gz
+      archivedLogFilenamePattern: ./logs/SITE-requests-%d.log.gz
 
       # The maximum number of log files to archive.
       archivedFileCount: 5
@@ -161,11 +161,11 @@ logging:
     threshold: ALL
 
     # The file to which statements will be logged.
-    currentLogFilename: ./logs/search-site-01.log
+    currentLogFilename: ./logs/SITE.log
 
     #  When the log file rolls over, the file will be archived to example-2012-03-15.log.gz,
     # example.log will be truncated, and new statements written to it.
-    archivedLogFilenamePattern: ./logs/sito01-%d.log.gz
+    archivedLogFilenamePattern: ./logs/SITE-%d.log.gz
 
     # The maximum number of log files to archive.
     archivedFileCount: 5

@@ -27,6 +27,9 @@ public class ImageSearchHealthCheck extends HealthCheck {
 	@Value(("${site}")) 
 	protected String site;
 	
+	@Value(("${cacheFolder}")) 
+	protected String cacheFolder;
+	
 	@Autowired
 	ImageSearcherServiceFactory searcherServiceFactory;
 	
@@ -38,12 +41,10 @@ public class ImageSearchHealthCheck extends HealthCheck {
 	protected Result check() throws Exception {
 		StringBuffer result = new StringBuffer();
 		result.append("Site: "+site+"\n");
-		boolean isHealthy = 
-				checkDirectory(images, result)
-				&& checkDirectory(searchFolder, result);
-		if (isHealthy) {
+		if (checkDirectory(searchFolder, result)) {
 			result.append("Images:          "+images+"\n");
 			result.append("Site Folder:     "+searchFolder+"\n");
+			result.append("Cache Folder:    "+cacheFolder+"\n");
 			result.append("Search Service:  "+searcherServiceFactory.getSearchService()+"\n");
 			return Result.healthy(result.toString());
 		}
@@ -55,13 +56,13 @@ public class ImageSearchHealthCheck extends HealthCheck {
 		boolean isHealthy = true;
 		if (!file.exists()) {
 			isHealthy = false;
-			result.append("file "+images+" doesn't exist\n");
+			result.append("file "+path+" doesn't exist\n");
         } else if (!file.isDirectory()) {
 			isHealthy = false;
-			result.append("file "+images+" is not a directory\n");
+			result.append("file "+path+" is not a directory\n");
 		} else if (file.listFiles().length == 0) {
 			isHealthy = false;
-			result.append("file "+images+" is an empty directory\n");
+			result.append("file "+path+" is an empty directory\n");
 		}
 		return isHealthy;
 	}
