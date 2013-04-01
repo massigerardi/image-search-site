@@ -3,7 +3,7 @@ searchFolder: FOLDER
 site: SITE
 
 # cache configuration
-cacheFolder: /home/dart/ehcache/SITE
+cacheFolder: ehcache/SITE
 # cache names separated by pipe |
 cacheNames: interestPoints|colorImage
 
@@ -12,10 +12,10 @@ cacheNames: interestPoints|colorImage
 http:
 
   # The port on which the HTTP server listens for service requests.
-  port: 8081
+  port: PORT
 
   # The port on which the HTTP server listens for administrative requests.
-  adminPort: 8091
+  adminPort: ADMINPORT
 
   # Maximum number of threads.
   maxThreads: 100
