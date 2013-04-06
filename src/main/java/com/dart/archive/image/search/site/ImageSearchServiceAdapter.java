@@ -46,26 +46,28 @@ public class ImageSearchServiceAdapter {
 	@Autowired
 	ImageSearcherServiceFactory searcherFactory;
 
-	public ImageSearchResults search(File file) {
+	public ImageSearchResults search(File file, String strategy) {
+		long start = System.currentTimeMillis();
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		try {
-			return search(searcherFactory.getSearchService(), file);
+			return search(searcherFactory.getSearchService(), file, strategy);
 		} catch (Exception e) {
 			logger.error("while searching", e);
-			return new ImageSearchResults(counter.incrementAndGet(), new ArrayList<ImageSearchCandidate>());
+			return new ImageSearchResults(counter.incrementAndGet(), new ArrayList<ImageSearchCandidate>(), System.currentTimeMillis() - start);
 		} finally {
 			Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 		}
 	}
 	
-	private ImageSearchResults search(ImageSearchService searcher, File file) {
-		Collection<Candidate> candidates = searcher.search(file);
+	private ImageSearchResults search(ImageSearchService searcher, File file, String strategy) {
+		long start = System.currentTimeMillis();
 		List<ImageSearchCandidate> results = new ArrayList<ImageSearchCandidate>();
+		Collection<Candidate> candidates = searcher.search(file, strategy);
 		for (Candidate candidate : candidates) {
 			ImageSearchCandidate searchCandidate = getCandidate(candidate);
 			results.add(searchCandidate);
 		}
-		return new ImageSearchResults(counter.incrementAndGet(), results);
+		return new ImageSearchResults(counter.incrementAndGet(), results, System.currentTimeMillis() - start);
 	}	
 	
 	private ImageSearchCandidate getCandidate(Candidate other) {

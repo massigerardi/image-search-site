@@ -1,9 +1,9 @@
-images: /Users/massimiliano.gerardi/dart/images/Trudgeon/1to49
-searchFolder: /Users/massimiliano.gerardi/dart/images/Trudgeon/1to49
+images: /Users/Pictures/Trudgeon/1to49
+searchFolder: /Users/massi/Pictures/Trudgeon/1to49
 site: site02
 
 # cache configuration
-cacheFolder: /Users/massimiliano.gerardi/dart/ehcache/site02
+cacheFolder: site02/ehcache/site02
 # cache names separated by pipe |
 cacheNames: interestPoints|colorImage
 

@@ -18,6 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.dart.archive.image.search.service.ImageSearchService;
+
 /**
  * @author Massimiliano.Gerardi
  *
@@ -40,8 +42,8 @@ public class ImageSearchResourceTest {
 	 */
 	@Test
 	public void testSearch() {
-		given(searchService.search(any(File.class))).willReturn(results);
-		Response response = imageSearchResource.search("image.jpg");
+		given(searchService.search(any(File.class), any(String.class))).willReturn(results);
+		Response response = imageSearchResource.search("image.jpg", ImageSearchService.PRE_FILTERING);
 		assertNotNull(response);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		assertEquals(results, response.getEntity());

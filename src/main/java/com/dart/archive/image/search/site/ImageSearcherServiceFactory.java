@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.dart.archive.image.search.service.ImageSearchService;
-import com.dart.archive.image.search.service.PreFilteringImageSearchServiceImpl;
+import com.dart.archive.image.search.service.ImageSearchServiceImpl;
 
 /**
  * @author massimiliano.gerardi
@@ -27,7 +27,7 @@ public class ImageSearcherServiceFactory {
 	 */
 	@Autowired
 	public ImageSearcherServiceFactory(@Value(("${searchFolder}")) String searchFolder) {
-		this.searchService = new PreFilteringImageSearchServiceImpl(searchFolder);
+		this.searchService = new ImageSearchServiceImpl(searchFolder);
 	}
 
 	

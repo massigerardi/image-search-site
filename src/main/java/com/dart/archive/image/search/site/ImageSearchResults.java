@@ -20,5 +20,7 @@ public class ImageSearchResults {
 	private final long id;
 	
 	private final List<ImageSearchCandidate> candidates;
+	
+	private final long ms;
 
 }

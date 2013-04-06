@@ -60,7 +60,7 @@ public class ImageSearchServiceAdapterTest {
 		imageSearchServiceAdapter.images=images;
 		imageSearchServiceAdapter.searchFolder = searchFolder;
 		given(searcherServiceFactory.getSearchService()).willReturn(searchService);
-		given(searchService.search(any(File.class))).willReturn(candidates);
+		given(searchService.search(any(File.class), any(String.class))).willReturn(candidates);
 		given(candidate1.getImage()).willReturn(new File("/src/test/resources/images/service/site01/image1.jpg"));
 		given(candidate2.getImage()).willReturn(new File("/src/test/resources/images/service/site01/image1.jpg"));
 		given(candidate3.getImage()).willReturn(new File("/src/test/resources/images/service/site01/image1.jpg"));
@@ -72,7 +72,7 @@ public class ImageSearchServiceAdapterTest {
 	@Test
 	public void testSearch() {
 		candidates.add(candidate1);
-		ImageSearchResults results = imageSearchServiceAdapter.search(new File("/src/test/resources/image.jpg"));
+		ImageSearchResults results = imageSearchServiceAdapter.search(new File("/src/test/resources/image.jpg"), ImageSearchService.PRE_FILTERING);
 		assertNotNull(results);
 		assertThat(results.getCandidates().size(), is(1));
 		ImageSearchCandidate candidate = results.getCandidates().get(0);
@@ -87,7 +87,7 @@ public class ImageSearchServiceAdapterTest {
 		candidates.add(candidate1);
 		candidates.add(candidate2);
 		candidates.add(candidate3);
-		ImageSearchResults results = imageSearchServiceAdapter.search(new File("/src/test/resources/image.jpg"));
+		ImageSearchResults results = imageSearchServiceAdapter.search(new File("/src/test/resources/image.jpg"), ImageSearchService.PRE_FILTERING);
 		assertNotNull(results);
 		assertThat(results.getCandidates().size(), is(3));
 		ImageSearchCandidate candidate = results.getCandidates().get(0);

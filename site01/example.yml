@@ -1,9 +1,9 @@
-images: /Users/massimiliano.gerardi/dart/images/Trudgeon/50to98
-searchFolder: /Users/massimiliano.gerardi/dart/images/Trudgeon/50to98
+images: /Users/Pictures/Trudgeon/50to98
+searchFolder: /Users/massi/Pictures/Trudgeon/50to98
 site: site01
 
 # cache configuration
-cacheFolder: site01
+cacheFolder: site01/ehcache
 # cache names separated by pipe |
 cacheNames: interestPoints|colorImage
 
@@ -146,7 +146,7 @@ logging:
   console:
 
     # If true, write log statements to stdout.
-    enabled: false
+    enabled: true
 
     # Do not display log statements below this threshold to stdout.
     threshold: ALL

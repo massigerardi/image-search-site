@@ -5,6 +5,7 @@ package com.dart.archive.image.search.site;
 
 import java.io.File;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.dart.archive.image.search.service.ImageSearchService;
 import com.yammer.metrics.annotation.Timed;
 
 /**
@@ -33,8 +35,8 @@ public class ImageSearchResource {
 
 	@GET
 	@Timed
-	public Response search(@QueryParam("image") String image) {
-		ImageSearchResults results = searchService.search(new File(image));
+	public Response search(@QueryParam("image") String image, @DefaultValue(ImageSearchService.PRE_FILTERING) @QueryParam("strategy") String strategy) {
+		ImageSearchResults results = searchService.search(new File(image), strategy);
 		return Response.status(Status.OK).entity(results).build();
 	}
 
